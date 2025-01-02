@@ -81,6 +81,14 @@ if (isset($_SESSION['usuario'])) {
 // Sigo jugando
         echo $blade->run("juego", compact('usuario', 'partida', 'error'));
 // Si no si se solicita una nueva partida
+    } elseif (filter_has_var(INPUT_GET, 'botoniniciojuego')) {
+        if ($partida && !$partida->esFin()) {
+            $partidaDAO->modifica($partida);
+        }// Se arranca una nueva partida
+        $partidasInacabadas = $partidaDAO->recuperaInacabadasPorIdUsuario($usuario->getId());
+// Invoco la vista del juego para empezar a jugar
+        echo $blade->run("partidasinacabadas", compact('usuario', 'partidasInacabadas'));
+        // Si no si se resuelve la partida con una palabra
     } elseif (filter_has_var(INPUT_GET, 'botonnuevapartida')) { // Se arranca una nueva partida
         if ($partida && !$partida->esFin()) {
             $partidaDAO->modifica($partida);
@@ -94,6 +102,11 @@ if (isset($_SESSION['usuario'])) {
 // Invoco la vista del juego para empezar a jugar
         echo $blade->run("juego", compact('usuario', 'partida'));
         // Si no si se resuelve la partida con una palabra
+    } elseif (filter_has_var(INPUT_GET, 'botonjugarpartida')) {
+        $partidaid = filter_input(INPUT_GET, 'partidaid');
+        $partida = $partidaDAO->recuperaPorId((int) $partidaid);
+        $_SESSION['partida'] = $partida;
+        echo $blade->run("juego", compact('usuario', 'partida'));
     } else { //En cualquier otro caso
         echo $blade->run("juego", compact('usuario', 'partida'));
     }

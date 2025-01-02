@@ -68,7 +68,7 @@ if (isset($_SESSION['usuario'])) {
         header("Location:juego.php");
     } else {
         // Redirijo al cliente al script de gestión del juego
-        header("Location:juego.php?botonnuevapartida");
+        header("Location:juego.php?botoniniciopartida");
         die;
     }
 
@@ -83,7 +83,7 @@ if (isset($_SESSION['usuario'])) {
         if ($usuario) {
             $_SESSION['usuario'] = $usuario;
             // Redirijo al cliente al script de juego con una nueva partida
-            header("Location:juego.php?botonnuevapartida");
+            header("Location:juego.php?botoniniciojuego");
             die;
         }
         // Si los credenciales son incorrectos

@@ -27,7 +27,7 @@ class PartidaDAO {
         $sql = "INSERT INTO partidas (numErrores, palabraSecreta, palabraDescubierta, letras, maxNumErrores, inicio, fin, idUsuario) VALUES (:numErrores, :palabraSecreta, :palabraDescubierta, :letras, :maxNumErrores, FROM_UNIXTIME(:inicio), FROM_UNIXTIME(:fin), :idUsuario)";
         $stmt = $this->bd->prepare($sql);
 
-        // Creando un array de parámetros
+// Creando un array de parámetros
         $params = [
             ':numErrores' => $partida->getNumErrores(),
             ':palabraSecreta' => $partida->getPalabraSecreta(),
@@ -36,13 +36,11 @@ class PartidaDAO {
             ':maxNumErrores' => $partida->getMaxNumErrores(),
             ':inicio' => $partida->getInicio(),
             ':fin' => $partida->getFin(),
-            ':idUsuario' =>  $partida->getIdUsuario()
+            ':idUsuario' => $partida->getIdUsuario()
         ];
-
         $result = $stmt->execute($params);
-
         if ($result) {
-            // Asigna el ID generado por la inserción al objeto Hangman
+// Asigna el ID generado por la inserción al objeto Hangman
             $partida->setId($this->bd->lastInsertId());
         }
         return $result;
@@ -52,7 +50,7 @@ class PartidaDAO {
         $sql = "UPDATE partidas SET numErrores = :numErrores, palabraSecreta = :palabraSecreta, palabraDescubierta = :palabraDescubierta, letras = :letras, maxNumErrores = :maxNumErrores, inicio = FROM_UNIXTIME(:inicio), fin = FROM_UNIXTIME(:fin) WHERE id = :id";
         $stmt = $this->bd->prepare($sql);
 
-        // Creando un array de parámetros
+// Creando un array de parámetros
         $params = [
             ':id' => $partida->getId(),
             ':numErrores' => $partida->getNumErrores(),
@@ -70,5 +68,24 @@ class PartidaDAO {
 
     public function elimina(int $id): bool {
         
+    }
+
+    public function recuperaPorId(int $id): ?Partida {
+        $sql = "select id, numErrores, palabraSecreta, palabraDescubierta, letras, maxNumErrores, UNIX_TIMESTAMP(inicio) as inicio, UNIX_TIMESTAMP(fin) as fin, idUsuario from partidas where id = :id;";
+        $sth = $this->bd->prepare($sql);
+        $sth->execute(["id" => $id]);
+        $sth->setFetchMode(PDO::FETCH_CLASS, Partida::class);
+        $partida = $sth->fetch();
+        return $partida;
+    }
+
+    public function recuperaInacabadasPorIdUsuario(int $idUsuario): array {
+        $this->bd->setAttribute(PDO::ATTR_CASE, PDO::CASE_NATURAL);
+        $sql = "select id, numErrores, palabraSecreta, palabraDescubierta, letras, maxNumErrores, UNIX_TIMESTAMP(inicio) as inicio, UNIX_TIMESTAMP(fin) as fin, idUsuario from partidas where idUsuario = :idUsuario and fin is NULL;";
+        $sth = $this->bd->prepare($sql);
+        $sth->execute(["idUsuario" => $idUsuario]);
+        $sth->setFetchMode(PDO::FETCH_CLASS, Partida::class);
+        $partidas = $sth->fetchAll() ?? [];
+        return $partidas;
     }
 }

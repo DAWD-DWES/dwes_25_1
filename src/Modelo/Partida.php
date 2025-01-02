@@ -58,19 +58,21 @@ class Partida {
     private ?int $idUsuario = null;
 
     /**
-     * Constructor de la clase Hangman
+     * Constructor de la clase Partida
      * 
      * @param AlmacenPalabrasInterface $almacen Almacen de donde obtener palabras para el juego
      * @param int $maxNumErrores Número maximo de errores
      * 
-     * @returns Hangman
+     * @returns Partida
      */
-    public function __construct(IAlmacenPalabras $almacen, int $maxNumErrores) {
-        $this->setPalabraSecreta(strtoupper($almacen->obtenerPalabraAleatoria()));
-        // Inicializa la estado de la palabra descubierta a una secuencia de guiones, uno por letra de la palabra oculta
-        $this->setPalabraDescubierta(preg_replace('/\w+?/', '_', $this->getPalabraSecreta()));
-        $this->setMaxNumErrores($maxNumErrores);
-        $this->setInicio((new DateTime('now'))->getTimestamp());
+    public function __construct(IAlmacenPalabras $almacen = null, int $maxNumErrores = null) {
+        if (func_num_args() > 0) {
+            $this->setPalabraSecreta(strtoupper($almacen->obtenerPalabraAleatoria()));
+            // Inicializa la estado de la palabra descubierta a una secuencia de guiones, uno por letra de la palabra oculta
+            $this->setPalabraDescubierta(preg_replace('/\w+?/', '_', $this->getPalabraSecreta()));
+            $this->setMaxNumErrores($maxNumErrores);
+            $this->setInicio((new DateTime('now'))->getTimestamp());
+        }
     }
 
     /**
