@@ -22,17 +22,11 @@ require "../vendor/autoload.php";
 require "../src/error_handler.php";
 
 use eftec\bladeone\BladeOne;
-use Dotenv\Dotenv;
 use App\BD\BD;
 use App\Modelo\Usuario;
 use App\DAO\UsuarioDAO;
 
 session_start();
-
-// Inicializa el acceso a las variables de entorno
-
-$dotenv = Dotenv::createImmutable(__DIR__ . "/../");
-$dotenv->load();
 
 // Inicializa el acceso a las variables de entorno
 
@@ -42,13 +36,8 @@ $blade = new BladeOne($views, $cache, BladeOne::MODE_DEBUG);
 
 // Establece conexión a la base de datos PDO
 try {
-    $host = $_ENV['DB_HOST'];
-    $port = $_ENV['DB_PORT'];
-    $database = $_ENV['DB_DATABASE'];
-    $usuario = $_ENV['DB_USUARIO'];
-    $password = $_ENV['DB_PASSWORD'];
-    $bd = BD::getConexion($host, $port, $database, $usuario, $password);
-} catch (PDOException $error) {
+    $bd = BD::getConexion();
+} catch (Exception $error) {
     echo $blade->run("cnxbderror", compact('error'));
     die;
 }

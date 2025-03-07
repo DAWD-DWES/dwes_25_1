@@ -26,7 +26,6 @@
 require "../vendor/autoload.php";
 
 use eftec\bladeone\BladeOne;
-use Dotenv\Dotenv;
 use App\BD\BD;
 use App\Modelo\Partida;
 use App\Almacen\AlmacenPalabrasFichero;
@@ -36,22 +35,14 @@ session_start();
 
 define("MAX_NUM_ERRORES", 5);
 
-$dotenv = Dotenv::createImmutable(__DIR__ . "/../");
-$dotenv->load();
-
 $views = __DIR__ . '/../vistas';
 $cache = __DIR__ . '/../cache';
 $blade = new BladeOne($views, $cache, BladeOne::MODE_DEBUG);
 
 // Establece conexión a la base de datos PDO
 try {
-    $host = $_ENV['DB_HOST'];
-    $port = $_ENV['DB_PORT'];
-    $database = $_ENV['DB_DATABASE'];
-    $usuario = $_ENV['DB_USUARIO'];
-    $password = $_ENV['DB_PASSWORD'];
-    $bd = BD::getConexion($host, $port, $database, $usuario, $password);
-} catch (PDOException $error) {
+    $bd = BD::getConexion();
+} catch (Exception $error) {
     echo $blade->run("cnxbderror", compact('error'));
     die;
 }
@@ -75,8 +66,8 @@ if (isset($_SESSION['usuario'])) {
             $partida->compruebaLetra(strtoupper($letra));
             if ($partida->esFin()) {
                 $partida->setFin((new DateTime('now'))->getTimestamp());
-                $partidaDAO->modifica($partida);
             }
+            $partidaDAO->modifica($partida);
         }
 // Sigo jugando
         echo $blade->run("juego", compact('usuario', 'partida', 'error'));
