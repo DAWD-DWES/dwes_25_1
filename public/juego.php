@@ -26,7 +26,6 @@
 require "../vendor/autoload.php";
 
 use eftec\bladeone\BladeOne;
-use Dotenv\Dotenv;
 use App\BD\BD;
 use App\Modelo\Partida;
 use App\Almacen\AlmacenPalabrasFichero;

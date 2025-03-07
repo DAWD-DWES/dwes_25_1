@@ -22,7 +22,6 @@ require "../vendor/autoload.php";
 require "../src/error_handler.php";
 
 use eftec\bladeone\BladeOne;
-use Dotenv\Dotenv;
 use App\BD\BD;
 use App\Modelo\Usuario;
 use App\DAO\UsuarioDAO;
