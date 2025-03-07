@@ -31,24 +31,14 @@ session_start();
 
 // Inicializa el acceso a las variables de entorno
 
-$dotenv = Dotenv::createImmutable(__DIR__ . "/../");
-$dotenv->load();
-
-// Inicializa el acceso a las variables de entorno
-
 $views = __DIR__ . '/../vistas';
 $cache = __DIR__ . '/../cache';
 $blade = new BladeOne($views, $cache, BladeOne::MODE_DEBUG);
 
 // Establece conexión a la base de datos PDO
 try {
-    $host = $_ENV['DB_HOST'];
-    $port = $_ENV['DB_PORT'];
-    $database = $_ENV['DB_DATABASE'];
-    $usuario = $_ENV['DB_USUARIO'];
-    $password = $_ENV['DB_PASSWORD'];
-    $bd = BD::getConexion($host, $port, $database, $usuario, $password);
-} catch (PDOException $error) {
+    $bd = BD::getConexion();
+} catch (Exception $error) {
     echo $blade->run("cnxbderror", compact('error'));
     die;
 }
