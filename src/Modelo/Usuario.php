@@ -6,7 +6,7 @@ namespace App\Modelo;
  * Clase que representa al usuario que está usando la aplicación
  */
 class Usuario {
-    
+
     /**
      * @var string $id identificador del usuario
      */
@@ -37,13 +37,9 @@ class Usuario {
      * @returns Hangman
      */
     public function __construct(?string $nombre = null, ?string $clave = null, ?string $email = null) {
-        if (!is_null($nombre)) {
+        if (func_num_args() > 0) {
             $this->nombre = $nombre;
-        }
-        if (!is_null($clave)) {
             $this->clave = $clave;
-        }
-        if (!is_null($email)) {
             $this->email = $email;
         }
     }
@@ -116,5 +112,4 @@ class Usuario {
     public function setEmail(string $email) {
         $this->email = $email;
     }
-
 }
