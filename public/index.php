@@ -30,9 +30,9 @@ session_start();
 
 // Inicializa el acceso a las variables de entorno
 
-$views = __DIR__ . '/../vistas';
+$vistas = __DIR__ . '/../vistas';
 $cache = __DIR__ . '/../cache';
-$blade = new BladeOne($views, $cache, BladeOne::MODE_DEBUG);
+$blade = new BladeOne($vistas, $cache, BladeOne::MODE_DEBUG);
 
 // Establece conexión a la base de datos PDO
 try {
