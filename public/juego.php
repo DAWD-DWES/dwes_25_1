@@ -65,17 +65,18 @@ if (isset($_SESSION['usuario'])) {
         if (!$error) {
             $partida->compruebaLetra(strtoupper($letra));
             if ($partida->esFin()) {
-                $partida->setFin((new DateTime('now'))->getTimestamp());
+                $partida->setFin(new DateTime('now'));
             }
+            try {
             $partidaDAO->modifica($partida);
+            } catch (PDOException $ex) {
+                error_log($ex->getMessage());
+            }
         }
 // Sigo jugando
         echo $blade->run("juego", compact('usuario', 'partida', 'error'));
 // Si no si se solicita una nueva partida
     } elseif (filter_has_var(INPUT_GET, 'botonnuevapartida')) { // Se arranca una nueva partida
-        if ($partida && !$partida->esFin()) {
-            $partidaDAO->modifica($partida);
-        }
         $rutaFichero = $_ENV['RUTA_ALMACEN_PALABRAS'];
         $almacenPalabras = new AlmacenPalabrasFichero($rutaFichero);
         $partida = new Partida($almacenPalabras, MAX_NUM_ERRORES);
