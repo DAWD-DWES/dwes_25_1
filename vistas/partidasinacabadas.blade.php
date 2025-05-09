@@ -35,7 +35,7 @@
                         <td><a href="juego.php?botonjugarpartida&partidaid={{$partida->getId()}}"> {{ $partida->getPalabraDescubierta() }}</a></td>
                         <td>{{ $partida->getLetras() }}</td>
                         <td>{{ $partida->getNumErrores() }}</td>
-                        <td>{{ (new DateTime())->setTimestamp((int)$partida->getInicio())->format('d M Y') }}</td>
+                        <td>{{ $partida->getInicio()->format('d M Y') }}</td>
                     </tr>
                     @empty
                     <tr><td>No hay partidas inacabadas</td></tr>
