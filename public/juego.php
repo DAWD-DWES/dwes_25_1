@@ -68,7 +68,7 @@ if (isset($_SESSION['usuario'])) {
                 $partida->setFin(new DateTime('now'));
             }
             try {
-            $partidaDAO->modifica($partida);
+                $partidaDAO->modifica($partida);
             } catch (PDOException $ex) {
                 error_log($ex->getMessage());
             }
@@ -81,8 +81,12 @@ if (isset($_SESSION['usuario'])) {
         $almacenPalabras = new AlmacenPalabrasFichero($rutaFichero);
         $partida = new Partida($almacenPalabras, MAX_NUM_ERRORES);
         $partida->setIdUsuario($usuario->getId());
-        $partidaId = $partidaDAO->crea($partida);
-        $partida->setId($partidaId);
+        try {
+            $partidaId = $partidaDAO->crea($partida);
+            $partida->setId($partidaId);
+        } catch (PDOException $ex) {
+            error_log($ex->getMessage());
+        }
         $_SESSION['partida'] = $partida;
 // Invoco la vista del juego para empezar a jugar
         echo $blade->run("juego", compact('usuario', 'partida'));
