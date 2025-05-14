@@ -32,7 +32,7 @@
                 <tbody>
                     @forelse($partidasInacabadas as $partida)
                     <tr>
-                        <td><a href="juego.php?botonjugarpartida&partidaid={{$partida->getId()}}"> {{ $partida->getPalabraDescubierta() }}</a></td>
+                        <td><a href="juego.php?botonjuegapartida&partidaid={{$partida->getId()}}"> {{ $partida->getPalabraDescubierta() }}</a></td>
                         <td>{{ $partida->getLetras() }}</td>
                         <td>{{ $partida->getNumErrores() }}</td>
                         <td>{{ $partida->getInicio()->format('d M Y') }}</td>

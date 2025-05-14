@@ -96,7 +96,7 @@ if (isset($_SESSION['usuario'])) {
 // Invoco la vista del juego para empezar a jugar
         echo $blade->run("juego", compact('usuario', 'partida'));
         // Si no si se resuelve la partida con una palabra
-    } elseif (filter_has_var(INPUT_GET, 'botonjugarpartida')) {
+    } elseif (filter_has_var(INPUT_GET, 'botonjuegapartida')) {
         $partidaid = filter_input(INPUT_GET, 'partidaid');
         $partida = $partidaDAO->recuperaPorId((int) $partidaid);
         $_SESSION['partida'] = $partida;
