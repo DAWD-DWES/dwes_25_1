@@ -77,7 +77,7 @@ class PartidaDAO {
 
     public function recuperaInacabadasPorIdUsuario(int $idUsuario): array {
         $this->bd->setAttribute(PDO::ATTR_CASE, PDO::CASE_NATURAL);
-        $sql = "select id, numErrores, palabraSecreta, palabraDescubierta, letras, maxNumErrores, UNIX_TIMESTAMP(inicio) as inicio, UNIX_TIMESTAMP(fin) as fin, idUsuario from partidas where idUsuario = :idUsuario and fin is NULL;";
+        $sql = "select id, numErrores, palabraSecreta, palabraDescubierta, letras, maxNumErrores, UNIX_TIMESTAMP(inicio) as inicio, idUsuario from partidas where idUsuario = :idUsuario and fin is NULL;";
         $sth = $this->bd->prepare($sql);
         $sth->execute(["idUsuario" => $idUsuario]);
         $sth->setFetchMode(PDO::FETCH_CLASS, Partida::class);
