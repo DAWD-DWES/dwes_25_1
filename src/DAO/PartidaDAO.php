@@ -81,7 +81,7 @@ class PartidaDAO {
         $sth = $this->bd->prepare($sql);
         $sth->execute(["idUsuario" => $idUsuario]);
         $sth->setFetchMode(PDO::FETCH_CLASS, Partida::class);
-        $partidas = $sth->fetchAll() ?? [];
+        $partidas = $sth->fetchAll();
         return $partidas;
     }
 }

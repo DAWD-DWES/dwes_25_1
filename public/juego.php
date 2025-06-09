@@ -110,7 +110,7 @@ if (isset($_SESSION['usuario'])) {
 // Invoco la vista del juego para empezar a jugar
         // Si no si se resuelve la partida con una palabra
     } elseif (filter_has_var(INPUT_GET, 'botonjuegapartida')) {
-        $partidaid = filter_input(INPUT_GET, 'partidaid');
+        $partidaid = filter_input(INPUT_GET, 'partidaid', FILTER_VALIDATE_INT);
         try {
             $partida = $partidaDAO->recuperaPorId((int) $partidaid);
             $_SESSION['partida'] = $partida;

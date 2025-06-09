@@ -2,7 +2,7 @@
 @extends('app')
 
 {{-- Sección aporta el título de la página --}}
-@section('title', 'Introduce Jugada')
+@section('title', 'Partidas inacabadas')
 
 {{-- Sección muestra vista de juego para que el usuario elija una letra --}}
 @section('navbar')
