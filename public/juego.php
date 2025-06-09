@@ -87,7 +87,7 @@ if (isset($_SESSION['usuario'])) {
         try {
             $partidasInacabadas = $partidaDAO->recuperaInacabadasPorIdUsuario($usuario->getId());
 // Invoco la vista del juego para empezar a jugar
-            echo $blade->run("partidasinacabadas", compact('usuario', 'partidasInacabadas'));
+            echo $blade->run("juegoinicio", compact('usuario', 'partidasInacabadas'));
             // Si no si se resuelve la partida con una palabra
         } catch (PDOException $ex) {
             error_log("Error PDO: " . $ex->getMessage());
